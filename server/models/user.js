@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize'); 
-var db = new Sequelize('postgres://localhost:5432', {logging: false});
+var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
 
 let User = db.define('user', {
 	username: {
@@ -27,4 +27,4 @@ let User = db.define('user', {
 
 
 
-module.exports = User; 
+module.exports = User;
