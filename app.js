@@ -29,9 +29,9 @@ app.get('/*', function(req, res){
 })
 
 
-tableOne.sync({force:true})
+tableOne.sync({})
 .then(function(){
-	return tableTwo.sync({force:true})
+	return tableTwo.sync({})
 })
 .then(function(){
 	return tableThree.sync({})

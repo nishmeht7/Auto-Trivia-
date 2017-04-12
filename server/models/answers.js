@@ -3,7 +3,7 @@ var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
 var Questions = require('./questions.js');
 
 let Answers = db.define('answers', {
-	answer: {
+	answerText: {
 		type: Sequelize.STRING, 
 		allowNull: false
 	},

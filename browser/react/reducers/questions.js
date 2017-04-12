@@ -12,9 +12,15 @@ export function recieveQuestion(question){
 export function creatingQuestion(question){
 	
 	return function(dispatch) {
-
-		return axios.post('/api/questions/')
+		console.log('question', question);
+		return axios.post('/api/questions', 
+			{questionText: question.questionText,
+			 questionImgUrl: question.questionImgUrl,
+			 points: question.points,
+			 answerText: question.answerText,
+			 correct: question.correct})
 		.then(function(response){
+		console.log('question 2', question);
 			dispatch(recieveQuestion(question));
 		})
 		.catch(function(err){
@@ -31,7 +37,8 @@ export default function questionReducer(prevState=[], action){
 	switch(action.type){
 
 		case ADD_QUESTION:
-			newState.push(action.question); 
+			newState.push(action.question);
+			console.log('action', action) 
 			break; 
 
 		default:
