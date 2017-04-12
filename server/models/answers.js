@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize');
 var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
+var Questions = require('./questions.js');
 
 let Answers = db.define('answers', {
 	answer: {
@@ -16,6 +17,6 @@ let Answers = db.define('answers', {
 
 })
 
-
+Answers.belongsTo(Questions, { as: 'Q' });
 
 module.exports = Answers;

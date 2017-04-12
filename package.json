@@ -5,17 +5,23 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "webpack -w & nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-loader": "^6.4.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "morgan": "^1.8.1",
     "nunjucks": "^3.0.0",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.30.4"
+    "react-router": "^4.1.0",
+    "sequelize": "^3.30.4",
+    "webpack": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.24.1"
   }
 }

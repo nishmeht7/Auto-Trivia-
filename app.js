@@ -21,14 +21,14 @@ app.use('/api', mainRoute)
 app.use(express.static('public'));
 
 //current homepage 
-app.get('/', function(req, res){
-	res.send("WELCOME TO TRIVIA BITCH!!!!")
-})
+// app.get('/', function(req, res){
+// 	res.send("WELCOME TO TRIVIA BITCH!!!!")
+// })
 
 
-tableOne.sync({})
+tableOne.sync({force:true})
 .then(function(){
-	return tableTwo.sync({})
+	return tableTwo.sync({force:true})
 })
 .then(function(){
 	return tableThree.sync({})
