@@ -17,6 +17,7 @@ let Answers = db.define('answers', {
 
 })
 
+// Relationships! Yay!
 Answers.belongsTo(Questions, { as: 'Q' });
 
 module.exports = Answers;
