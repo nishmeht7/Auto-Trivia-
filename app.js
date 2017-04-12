@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const tableOne = require('./server/models/questions.js');
 const tableTwo = require('./server/models/user.js');
 const tableThree = require('./server/models/answers.js'); 
+//require for path.resolve 
+const path = require('path');
 
 //morgan middleware 
 app.use(morgan('dev'));
@@ -20,10 +22,11 @@ app.use('/api', mainRoute)
 //posting all static files in public folder 
 app.use(express.static('public'));
 
-//current homepage 
-// app.get('/', function(req, res){
-// 	res.send("WELCOME TO TRIVIA BITCH!!!!")
-// })
+// current homepage 
+app.get('/*', function(req, res){
+	//path.resolve converts the relative paths to an absolute path 
+	res.sendFile(path.resolve(__dirname, 'browser/index.html'))
+})
 
 
 tableOne.sync({force:true})

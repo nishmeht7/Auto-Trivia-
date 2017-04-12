@@ -1,7 +1,9 @@
 import React from 'react';
+import { creatingQuestion } from '../reducers/questions.js';
+import { connect } from 'react-redux';
 
 
-class addQuestion extends React.Component {
+class AddQuestion extends React.Component {
 
 
 	constructor(props){
@@ -27,9 +29,12 @@ class addQuestion extends React.Component {
 	onSubmitHandle(event){
 		event.preventDefault(); 
 		this.props.creatingQuestion(this.state)
+
 	}
 
 	render(){
+		const handleSubmit = this.onSubmitHandle;
+		const handleChange = this.handleChange;
 		return (
 			<div className="well">
 		      <form className="form-horizontal" noValidate name="addQuestions" onSubmit={handleSubmit}>
@@ -67,7 +72,7 @@ class addQuestion extends React.Component {
 		            </div>
 		          <div className="form-group">
 		            <div className="col-xs-10 col-xs-offset-2">
-		              <button type="submit" onSubmit={onSubmitHandle} className="btn btn-success">Add Question</button>
+		              <button type="submit" onSubmit={handleSubmit} className="btn btn-success">Add Question</button>
 		            </div>
 		          </div>
 		        </fieldset>
@@ -77,4 +82,6 @@ class addQuestion extends React.Component {
 		
 	}
 }
+
+export default connect(null, { creatingQuestion })(AddQuestion);
 

@@ -26,8 +26,9 @@ export function creatingQuestion(question){
 
 export default function questionReducer(prevState=[], action){
 
-	const newState = [...prevState]
-	Switch(action.type){
+	const newState = [...prevState];
+
+	switch(action.type){
 
 		case ADD_QUESTION:
 			newState.push(action.question); 
