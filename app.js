@@ -42,5 +42,4 @@ tableOne.sync({})
 	app.listen(3001, function(){
 		console.log('listening on 3001');
 	})
-	
 })

@@ -15,15 +15,18 @@ router.get('/addPage', function(req, res){
 router.post('/questions', function(req, res) {
 
 	// Log the request - for development only
-	console.info('questions req', req.body)
+	//console.info('questions req', req.body)
 
 	// Create the question
 	Questions.create(req.body, function(savedQuestion) {
-        Answers.create(savedQuestion.id, req.body.answerText, req.body.correct,
-			function(savedAnswer) {
-				console.log('answer created!!!')
-				res.send("all items created23123")
-			})
+		console.log('saved question', req.body)
+		req.body.answerText.forEach(function(answer){
+	        Answers.create(savedQuestion.id, answer.rightAns, answer.correct,
+				function(savedAnswer) { 
+					console.log('answer created!!!');
+				})
+		})
+		res.send('science bitch!!!!!')
 	})
 })
 

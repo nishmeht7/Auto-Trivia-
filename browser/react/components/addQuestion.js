@@ -15,10 +15,10 @@ class AddQuestion extends React.Component {
 			questionText: "",
 			questionImgUrl: "",
 			points: 0,
-			answerText: [{rightAns: ""}],
-			correct: false, 
+			answerText: []
 			
 		}
+		this.handleAddAnswer()
 		this.handleChange = this.handleChange.bind(this);
 		this.onSubmitHandle = this.onSubmitHandle.bind(this);
 		this.handleAddAnswer = this.handleAddAnswer.bind(this);
@@ -26,17 +26,43 @@ class AddQuestion extends React.Component {
 
 	handleAddAnswer(){
 		this.setState({
-			answerText: this.state.answerText.concat([{ rightAns: '' }])
+			answerText: this.state.answerText.concat([{ name: `answerText${this.state.answerText.length}`, rightAns: '', correct: false }])
 		});
+		console.log('afterAdd', this.state.answerText);
 	}
 
 
 	handleChange(event){
-		var name = event.target.name; 
-		var value = event.target.value; 
-		this.setState({
-			[name]: value //this is just like obj[name] except you can use it inside the obj 
-		})
+		
+		var name = event.target.name; //assigning name and value to the name and value of 
+		var value = event.target.value; //individual child that onChange is being called upon
+
+		if (name.indexOf('answerText') == 0){ //checking if change is on answerText and then setting the change
+			var newArr = this.state.answerText.concat(); //on a particular idx by setting it to that variable
+			var idx = newArr.findIndex(function(elem){
+				if (elem.name === name){
+					return true; 
+				} //if elem.name found is the same as the name in our array of objs 
+			}) //we can update the value of the particular individual obj and only that obj
+			newArr[idx] = Object.assign({}, newArr[idx], {rightAns : value})
+			this.setState({ answerText: newArr })
+		}
+
+		else if (name.indexOf('isCorrect') == 0){ //same thing here except for 'isCorrect' and using map 
+			var radArr = this.state.answerText.map(function(answer){ //instead of finfIndex
+				var isCorrect = false; 
+				if (answer.name === value) {
+					isCorrect = true; 
+				}
+				return Object.assign({}, answer, {correct: isCorrect})
+			});
+			this.setState({ answerText: radArr});
+		}
+		else {
+			this.setState({
+				[name]: value //this is just like obj[name] except you can use it inside the obj 
+			})
+		}
 	}
 
 	onSubmitHandle(event){
@@ -55,8 +81,8 @@ class AddQuestion extends React.Component {
 		        <fieldset>
 		          <legend>Add to Questions</legend>
 		          <div className="form-group">
-		            <label htmlFor="song" className="col-lg-10 control-label">Question</label>
-		            <div className="col-lg-2">
+		            <label htmlFor="song" className="col-xs-2 control-label">Question</label>
+		            <div className="col-xs-10">
 			            <input
 			            	name='questionText'
 			                className="form-control"
@@ -87,37 +113,36 @@ class AddQuestion extends React.Component {
 			              />
 			                {console.log(this.state.points)}
 		            </div>
-		            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
+
 		            {this.state.answerText.map((answer, idx) => (
-			            <div className="col-xs-10">
-				            <input
-				            	key={idx}
-				            	name="answerText"
-				                className="form-control"
-				                type="text"
-				                onChange={handleChange}
-				                value={this.state.answerText}
-				              />
-			            </div>
+			            <div>
+				            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
+				            <div className="col-xs-6">
+					            <input
+					            	key={idx}
+					            	name={answer.name}
+					                className="form-control"
+					                type="text"
+					                onChange={handleChange}
+					                value={this.state.answerText.rightAns}
+					              />
+				            </div>
+					        <label>Correct Answer</label>          
+					          	<input
+					          		className="col-xs-4"
+					          		type = "radio"
+					                name = "isCorrect"
+					                id = "sizeSmall"
+					                onChange={handleChange}
+					                value = {answer.name}
+					              />
+				        </div>
 		            ))}
 		            <button 
 		            type='button' 
 		            onClick={this.handleAddAnswer} 
-		            className='small'
-		            >Add Answer</button>
-		            <label htmlFor="song" className="col-xs-2 control-label">Correct?</label>
-		            <div className="col-xs-10">
-			            <select
-			            	name="correct"
-			                className="form-control"
-			                type="text"
-			                onChange={handleChange}
-			                value={this.state.correct}
-			             >
-			             	<option>True</option>
-			             	<option>False</option>
-			             </select>
-		            </div>
+		            className='btn btn-primary col-xs-1 col-xs-offset-2'
+		            >Add Answer</button><br />
 		          <div className="form-group">
 		            <div className="col-xs-10 col-xs-offset-2">
 		              <button type="submit" onSubmit={handleSubmit} className="btn btn-success">Add Question</button>
@@ -131,12 +156,5 @@ class AddQuestion extends React.Component {
 	}
 }
 
-//export default connect({form: 'addQuestions', creatingQuestion})(AddQuestion)
-// AddQuestion = reduxForm({
-// 	form: 'addTriviaQuestions'
-// })(AddQuestion)
-
-// AddQuestion = connect(null, { creatingQuestion })(AddQuestion)
-// export default AddQuestion; 
 export default connect(null, { creatingQuestion })(AddQuestion);
 
