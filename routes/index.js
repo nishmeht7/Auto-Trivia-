@@ -1,9 +1,6 @@
-const express = require('express');
-const Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
-const router = express.Router();
+const router = require('express').Router();
 
-
+// Data Items
 const Questions = require('../server/repos/questionRepository')
 const Answers = require('../server/repos/answerRepository')
 
