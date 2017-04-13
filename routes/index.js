@@ -1,45 +1,40 @@
-const express = require('express');
-const Sequelize = require('sequelize');
-const db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
-const Questions = require('../server/models/questions.js');
-const Answers = require('../server/models/answers.js');
+const router = require('express').Router();
 
-const router = express.Router();
-
+// Data Items
+const Questions = require('../server/repos/questionRepository')
+const Answers = require('../server/repos/answerRepository')
 
 router.get('/addPage', function(req, res){
 	res.send("Add your questions here: ");
 })
 
-// router.get('/questions', function(req, res){
-// 	res.send("Questions Page");
-// })
 
-router.post('/questions', function(req, res){
-	console.log('questions req', req.body)
-	Questions.create(req.body)
-	.then(function(question){
-		Answers.create({
-			answerText: req.body.answerText,
-			correct: req.body.correct,
-			QId: question.id
-		})
-		.then(function(){
-			console.log('answer created')
-		})
-		console.log('created!');
+/**
+ * Adds a new question with answers attached
+ */
+router.post('/questions', function(req, res) {
+
+	// Log the request - for development only
+	console.info('questions req', req.body)
+
+	// Create the question
+	Questions.create(req.body, function(savedQuestion) {
+        Answers.create(savedQuestion.id, req.body.answerText, req.body.correct,
+			function(savedAnswer) {
+				console.log('answer created!!!')
+				res.send("all items created23123")
+			})
 	})
 })
 
-
-// router.post('/answer', function(req, res){
-// 	console.log('answers req', req.body)
-// 	Answers.create(req.body)
-// 	.then(function(){
-// 		console.log('created!');
-// 	})
-// })
-
+/**
+ * Returns all questions
+ */
+router.get('/questions', function (req, res) {
+	Questions.getAllQuestions(function(questions) {
+    	res.send(questions)
+	})
+})
 
 //always remember to export the router 
 module.exports = router;
