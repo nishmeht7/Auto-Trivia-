@@ -17805,12 +17805,12 @@ var AddQuestion = function (_React$Component) {
 							{ className: 'form-group' },
 							_react2.default.createElement(
 								'label',
-								{ htmlFor: 'song', className: 'col-lg-10 control-label' },
+								{ htmlFor: 'song', className: 'col-xs-2 control-label' },
 								'Question'
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'col-lg-2' },
+								{ className: 'col-xs-10' },
 								_react2.default.createElement('input', {
 									name: 'questionText',
 									className: 'form-control',
@@ -17853,18 +17853,18 @@ var AddQuestion = function (_React$Component) {
 							}),
 							console.log(this.state.points)
 						),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'song', className: 'col-xs-2 control-label' },
-							'Answer'
-						),
 						this.state.answerText.map(function (answer, idx) {
 							return _react2.default.createElement(
 								'div',
 								null,
 								_react2.default.createElement(
+									'label',
+									{ htmlFor: 'song', className: 'col-xs-2 control-label' },
+									'Answer'
+								),
+								_react2.default.createElement(
 									'div',
-									{ className: 'answer' },
+									{ className: 'col-xs-6' },
 									_react2.default.createElement('input', {
 										key: idx,
 										name: answer.name,
@@ -17880,6 +17880,7 @@ var AddQuestion = function (_React$Component) {
 									'Correct Answer'
 								),
 								_react2.default.createElement('input', {
+									className: 'col-xs-4',
 									type: 'radio',
 									name: 'isCorrect',
 									id: 'sizeSmall',
@@ -17893,7 +17894,7 @@ var AddQuestion = function (_React$Component) {
 							{
 								type: 'button',
 								onClick: this.handleAddAnswer,
-								className: 'small'
+								className: 'btn btn-primary col-xs-1 col-xs-offset-2'
 							},
 							'Add Answer'
 						),

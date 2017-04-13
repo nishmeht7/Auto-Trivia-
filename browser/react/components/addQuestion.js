@@ -81,8 +81,8 @@ class AddQuestion extends React.Component {
 		        <fieldset>
 		          <legend>Add to Questions</legend>
 		          <div className="form-group">
-		            <label htmlFor="song" className="col-lg-10 control-label">Question</label>
-		            <div className="col-lg-2">
+		            <label htmlFor="song" className="col-xs-2 control-label">Question</label>
+		            <div className="col-xs-10">
 			            <input
 			            	name='questionText'
 			                className="form-control"
@@ -113,10 +113,11 @@ class AddQuestion extends React.Component {
 			              />
 			                {console.log(this.state.points)}
 		            </div>
-		            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
+
 		            {this.state.answerText.map((answer, idx) => (
 			            <div>
-				            <div className="answer">
+				            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
+				            <div className="col-xs-6">
 					            <input
 					            	key={idx}
 					            	name={answer.name}
@@ -128,6 +129,7 @@ class AddQuestion extends React.Component {
 				            </div>
 					        <label>Correct Answer</label>          
 					          	<input
+					          		className="col-xs-4"
 					          		type = "radio"
 					                name = "isCorrect"
 					                id = "sizeSmall"
@@ -139,7 +141,7 @@ class AddQuestion extends React.Component {
 		            <button 
 		            type='button' 
 		            onClick={this.handleAddAnswer} 
-		            className='small'
+		            className='btn btn-primary col-xs-1 col-xs-offset-2'
 		            >Add Answer</button><br />
 		          <div className="form-group">
 		            <div className="col-xs-10 col-xs-offset-2">
