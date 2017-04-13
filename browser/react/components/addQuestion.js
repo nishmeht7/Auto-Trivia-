@@ -15,10 +15,10 @@ class AddQuestion extends React.Component {
 			questionText: "",
 			questionImgUrl: "",
 			points: 0,
-			answerText: [{rightAns: ""}],
-			correct: false, 
+			answerText: []
 			
 		}
+		this.handleAddAnswer()
 		this.handleChange = this.handleChange.bind(this);
 		this.onSubmitHandle = this.onSubmitHandle.bind(this);
 		this.handleAddAnswer = this.handleAddAnswer.bind(this);
@@ -26,17 +26,31 @@ class AddQuestion extends React.Component {
 
 	handleAddAnswer(){
 		this.setState({
-			answerText: this.state.answerText.concat([{ rightAns: '' }])
+			answerText: this.state.answerText.concat([{ name: `answerText${this.state.answerText.length}`, rightAns: '', correct: false }])
 		});
+		console.log('afterAdd', this.state.answerText);
 	}
 
 
 	handleChange(event){
 		var name = event.target.name; 
-		var value = event.target.value; 
-		this.setState({
-			[name]: value //this is just like obj[name] except you can use it inside the obj 
-		})
+		var value = event.target.value;
+		if (name.indexOf('answerText') == 0){
+			var newArr = this.state.answerText.concat();
+			var idx = newArr.findIndex(function(elem){
+				if (elem.name === name){
+					return true; 
+				}
+			})
+			console.log('index', idx)
+			newArr[idx] = Object.assign({}, newArr[idx], {rightAns : value})
+			this.setState({ answerText: newArr })
+		}
+		else {
+			this.setState({
+				[name]: value //this is just like obj[name] except you can use it inside the obj 
+			})
+		}
 	}
 
 	onSubmitHandle(event){
@@ -89,35 +103,29 @@ class AddQuestion extends React.Component {
 		            </div>
 		            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
 		            {this.state.answerText.map((answer, idx) => (
-			            <div className="col-xs-10">
-				            <input
-				            	key={idx}
-				            	name="answerText"
-				                className="form-control"
-				                type="text"
-				                onChange={handleChange}
-				                value={this.state.answerText}
-				              />
-			            </div>
+			            <div> 
+				            <div className="answer">
+					            <input
+					            	key={idx}
+					            	name={answer.name}
+					                className="form-control"
+					                type="text"
+					                onChange={handleChange}	
+					                value={this.state.answerText.rightAns}
+					              />
+				            </div>
+					        <label>Correct?</label>            
+					          <input type = "radio"
+					                 name = "radSize"
+					                 id = "sizeSmall"
+					                 value = 'true'/>
+				        </div>
 		            ))}
 		            <button 
 		            type='button' 
 		            onClick={this.handleAddAnswer} 
 		            className='small'
-		            >Add Answer</button>
-		            <label htmlFor="song" className="col-xs-2 control-label">Correct?</label>
-		            <div className="col-xs-10">
-			            <select
-			            	name="correct"
-			                className="form-control"
-			                type="text"
-			                onChange={handleChange}
-			                value={this.state.correct}
-			             >
-			             	<option>True</option>
-			             	<option>False</option>
-			             </select>
-		            </div>
+		            >Add Answer</button><br />
 		          <div className="form-group">
 		            <div className="col-xs-10 col-xs-offset-2">
 		              <button type="submit" onSubmit={handleSubmit} className="btn btn-success">Add Question</button>
