@@ -1,5 +1,5 @@
-var Sequelize = require('sequelize'); 
-var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
+var Sequelize = require('sequelize');
+var db = require('../db').sequelize
 
 let User = db.define('user', {
 	username: {

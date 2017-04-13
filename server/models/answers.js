@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
+var db = require('../db').sequelize
 var Questions = require('./questions.js');
 
 let Answers = db.define('answers', {
