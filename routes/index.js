@@ -19,11 +19,14 @@ router.post('/questions', function(req, res) {
 
 	// Create the question
 	Questions.create(req.body, function(savedQuestion) {
-        Answers.create(savedQuestion.id, req.body.answerText, req.body.correct,
-			function(savedAnswer) {
-				console.log('answer created!!!')
-				res.send("all items created23123")
-			})
+		console.log('saved question', req.body)
+		req.body.answerText.forEach(function(answer){
+	        Answers.create(savedQuestion.id, answer.rightAns, req.body.correct,
+				function(savedAnswer) {
+					console.log('answer created!!!');
+				})
+		})
+		res.send('science bitch!!!!!')
 	})
 })
 
