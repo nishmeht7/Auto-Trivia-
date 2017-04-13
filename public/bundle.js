@@ -17743,18 +17743,31 @@ var AddQuestion = function (_React$Component) {
 	}, {
 		key: 'handleChange',
 		value: function handleChange(event) {
-			var name = event.target.name;
-			var value = event.target.value;
+
+			var name = event.target.name; //assigning name and value to the name and value of 
+			var value = event.target.value; //individual child that onChange is being called upon
+
 			if (name.indexOf('answerText') == 0) {
-				var newArr = this.state.answerText.concat();
+				//checking if change is on answerText and then setting the change
+				var newArr = this.state.answerText.concat(); //on a particular idx by setting it to that variable
 				var idx = newArr.findIndex(function (elem) {
 					if (elem.name === name) {
 						return true;
-					}
-				});
-				console.log('index', idx);
+					} //if elem.name found is the same as the name in our array of objs 
+				}); //we can update the value of the particular individual obj and only that obj
 				newArr[idx] = Object.assign({}, newArr[idx], { rightAns: value });
 				this.setState({ answerText: newArr });
+			} else if (name.indexOf('isCorrect') == 0) {
+				//same thing here except for 'isCorrect' and using map 
+				var radArr = this.state.answerText.map(function (answer) {
+					//instead of finfIndex
+					var isCorrect = false;
+					if (answer.name === value) {
+						isCorrect = true;
+					}
+					return Object.assign({}, answer, { correct: isCorrect });
+				});
+				this.setState({ answerText: radArr });
 			} else {
 				this.setState(_defineProperty({}, name, value));
 			}
@@ -17864,12 +17877,15 @@ var AddQuestion = function (_React$Component) {
 								_react2.default.createElement(
 									'label',
 									null,
-									'Correct?'
+									'Correct Answer'
 								),
-								_react2.default.createElement('input', { type: 'radio',
-									name: 'radSize',
+								_react2.default.createElement('input', {
+									type: 'radio',
+									name: 'isCorrect',
 									id: 'sizeSmall',
-									value: 'true' })
+									onChange: handleChange,
+									value: answer.name
+								})
 							);
 						}),
 						_react2.default.createElement(
@@ -17903,15 +17919,6 @@ var AddQuestion = function (_React$Component) {
 
 	return AddQuestion;
 }(_react2.default.Component);
-
-//export default connect({form: 'addQuestions', creatingQuestion})(AddQuestion)
-// AddQuestion = reduxForm({
-// 	form: 'addTriviaQuestions'
-// })(AddQuestion)
-
-// AddQuestion = connect(null, { creatingQuestion })(AddQuestion)
-// export default AddQuestion; 
-
 
 exports.default = (0, _reactRedux.connect)(null, { creatingQuestion: _questions.creatingQuestion })(AddQuestion);
 

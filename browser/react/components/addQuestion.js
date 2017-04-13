@@ -33,18 +33,30 @@ class AddQuestion extends React.Component {
 
 
 	handleChange(event){
-		var name = event.target.name; 
-		var value = event.target.value;
-		if (name.indexOf('answerText') == 0){
-			var newArr = this.state.answerText.concat();
+		
+		var name = event.target.name; //assigning name and value to the name and value of 
+		var value = event.target.value; //individual child that onChange is being called upon
+
+		if (name.indexOf('answerText') == 0){ //checking if change is on answerText and then setting the change
+			var newArr = this.state.answerText.concat(); //on a particular idx by setting it to that variable
 			var idx = newArr.findIndex(function(elem){
 				if (elem.name === name){
 					return true; 
-				}
-			})
-			console.log('index', idx)
+				} //if elem.name found is the same as the name in our array of objs 
+			}) //we can update the value of the particular individual obj and only that obj
 			newArr[idx] = Object.assign({}, newArr[idx], {rightAns : value})
 			this.setState({ answerText: newArr })
+		}
+
+		else if (name.indexOf('isCorrect') == 0){ //same thing here except for 'isCorrect' and using map 
+			var radArr = this.state.answerText.map(function(answer){ //instead of finfIndex
+				var isCorrect = false; 
+				if (answer.name === value) {
+					isCorrect = true; 
+				}
+				return Object.assign({}, answer, {correct: isCorrect})
+			});
+			this.setState({ answerText: radArr});
 		}
 		else {
 			this.setState({
@@ -103,22 +115,25 @@ class AddQuestion extends React.Component {
 		            </div>
 		            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
 		            {this.state.answerText.map((answer, idx) => (
-			            <div> 
+			            <div>
 				            <div className="answer">
 					            <input
 					            	key={idx}
 					            	name={answer.name}
 					                className="form-control"
 					                type="text"
-					                onChange={handleChange}	
+					                onChange={handleChange}
 					                value={this.state.answerText.rightAns}
 					              />
 				            </div>
-					        <label>Correct?</label>            
-					          <input type = "radio"
-					                 name = "radSize"
-					                 id = "sizeSmall"
-					                 value = 'true'/>
+					        <label>Correct Answer</label>          
+					          	<input
+					          		type = "radio"
+					                name = "isCorrect"
+					                id = "sizeSmall"
+					                onChange={handleChange}
+					                value = {answer.name}
+					              />
 				        </div>
 		            ))}
 		            <button 
@@ -139,12 +154,5 @@ class AddQuestion extends React.Component {
 	}
 }
 
-//export default connect({form: 'addQuestions', creatingQuestion})(AddQuestion)
-// AddQuestion = reduxForm({
-// 	form: 'addTriviaQuestions'
-// })(AddQuestion)
-
-// AddQuestion = connect(null, { creatingQuestion })(AddQuestion)
-// export default AddQuestion; 
 export default connect(null, { creatingQuestion })(AddQuestion);
 
