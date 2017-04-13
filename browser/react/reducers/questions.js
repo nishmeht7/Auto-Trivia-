@@ -13,12 +13,7 @@ export function creatingQuestion(question){
 	
 	return function(dispatch) {
 		console.log('question', question);
-		return axios.post('/api/questions', 
-			{questionText: question.questionText,
-			 questionImgUrl: question.questionImgUrl,
-			 points: question.points,
-			 answerText: question.answerText,
-			 correct: question.correct})
+		return axios.post('/api/questions', question)
 		.then(function(response){
 		console.log('question 2', question);
 			dispatch(recieveQuestion(question));
