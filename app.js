@@ -8,6 +8,8 @@ const tableTwo = require('./server/models/user.js');
 const tableThree = require('./server/models/answers.js'); 
 //require for path.resolve 
 const path = require('path');
+const apiRoutes = require('./routes/index.js');
+
 
 //morgan middleware 
 app.use(morgan('dev'));
@@ -16,8 +18,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var mainRoute = require('./routes/index.js');
-app.use('/api', mainRoute)
+app.use('/api', apiRoutes)
 
 //posting all static files in public folder 
 app.use(express.static('public'));
