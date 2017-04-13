@@ -1,6 +1,7 @@
 import React from 'react';
 import { creatingQuestion } from '../reducers/questions.js';
 import { creatingAnswer } from '../reducers/answerReducer.js';
+import { Field, FieldArray, reduxForm } from 'redux-form'
 
 import { connect } from 'react-redux';
 
@@ -36,6 +37,37 @@ class AddQuestion extends React.Component {
 		this.props.creatingQuestion(this.state);
 		//this.props.creatingAnswer(this.state);
 
+	}
+
+	renderMembers({ fields }){
+
+		return (
+			  <ul>
+			    <li>
+			      <button type="button" onClick={() => fields.push({})}>Add Member</button>
+			    </li>
+			    {fields.map((member, index) =>
+			      <li key={index}>
+			        <button
+			          type="button"
+			          title="Remove Member"
+			          onClick={() => fields.remove(index)}/>
+			        <h4>Member #{index + 1}</h4>
+			        <Field
+			          name={`${member}.firstName`}
+			          type="text"
+			          component={renderField}
+			          placeholder="First Name"/>
+			        <Field
+			          name={`${member}.lastName`}
+			          type="text"
+			          component={renderField}
+			          placeholder="Last Name"/>
+			        <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
+			      </li>
+			    )}
+			  </ul>
+		)
 	}
 
 	render(){
@@ -115,5 +147,5 @@ class AddQuestion extends React.Component {
 	}
 }
 
-export default connect(null, { creatingQuestion, creatingAnswer })(AddQuestion);
+export default connect(null, { creatingQuestion })(AddQuestion);
 

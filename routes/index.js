@@ -1,6 +1,6 @@
 const express = require('express');
 const Sequelize = require('sequelize');
-var db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
+const db = new Sequelize('postgres://localhost:5432/cartrivia', {logging: false});
 const Questions = require('../server/models/questions.js');
 const Answers = require('../server/models/answers.js');
 
