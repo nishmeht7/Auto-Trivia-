@@ -15311,16 +15311,24 @@ var AddQuestion = function (_React$Component) {
 			questionText: "",
 			questionImgUrl: "",
 			points: 0,
-			answerText: "",
+			answerText: [{ rightAns: "" }],
 			correct: false
 
 		};
 		_this.handleChange = _this.handleChange.bind(_this);
 		_this.onSubmitHandle = _this.onSubmitHandle.bind(_this);
+		_this.handleAddAnswer = _this.handleAddAnswer.bind(_this);
 		return _this;
 	}
 
 	_createClass(AddQuestion, [{
+		key: 'handleAddAnswer',
+		value: function handleAddAnswer() {
+			this.setState({
+				answerText: this.state.answerText.concat([{ rightAns: '' }])
+			});
+		}
+	}, {
 		key: 'handleChange',
 		value: function handleChange(event) {
 			var name = event.target.name;
@@ -15335,59 +15343,10 @@ var AddQuestion = function (_React$Component) {
 			//this.props.creatingAnswer(this.state);
 		}
 	}, {
-		key: 'renderMembers',
-		value: function renderMembers(_ref) {
-			var fields = _ref.fields;
-
-
-			return _react2.default.createElement(
-				'ul',
-				null,
-				_react2.default.createElement(
-					'li',
-					null,
-					_react2.default.createElement(
-						'button',
-						{ type: 'button', onClick: function onClick() {
-								return fields.push({});
-							} },
-						'Add Member'
-					)
-				),
-				fields.map(function (member, index) {
-					return _react2.default.createElement(
-						'li',
-						{ key: index },
-						_react2.default.createElement('button', {
-							type: 'button',
-							title: 'Remove Member',
-							onClick: function onClick() {
-								return fields.remove(index);
-							} }),
-						_react2.default.createElement(
-							'h4',
-							null,
-							'Member #',
-							index + 1
-						),
-						_react2.default.createElement(_reduxForm.Field, {
-							name: member + '.firstName',
-							type: 'text',
-							component: renderField,
-							placeholder: 'First Name' }),
-						_react2.default.createElement(_reduxForm.Field, {
-							name: member + '.lastName',
-							type: 'text',
-							component: renderField,
-							placeholder: 'Last Name' }),
-						_react2.default.createElement(_reduxForm.FieldArray, { name: member + '.hobbies', component: renderHobbies })
-					);
-				})
-			);
-		}
-	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var handleSubmit = this.onSubmitHandle;
 			var handleChange = this.handleChange;
 			return _react2.default.createElement(
@@ -15462,16 +15421,28 @@ var AddQuestion = function (_React$Component) {
 							{ htmlFor: 'song', className: 'col-xs-2 control-label' },
 							'Answer'
 						),
+						this.state.answerText.map(function (answer, idx) {
+							return _react2.default.createElement(
+								'div',
+								{ className: 'col-xs-10' },
+								_react2.default.createElement('input', {
+									key: idx,
+									name: 'answerText',
+									className: 'form-control',
+									type: 'text',
+									onChange: handleChange,
+									value: _this2.state.answerText
+								})
+							);
+						}),
 						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-10' },
-							_react2.default.createElement('input', {
-								name: 'answerText',
-								className: 'form-control',
-								type: 'text',
-								onChange: handleChange,
-								value: this.state.answerText
-							})
+							'button',
+							{
+								type: 'button',
+								onClick: this.handleAddAnswer,
+								className: 'small'
+							},
+							'Add Answer'
 						),
 						_react2.default.createElement(
 							'label',
@@ -15523,6 +15494,15 @@ var AddQuestion = function (_React$Component) {
 
 	return AddQuestion;
 }(_react2.default.Component);
+
+//export default connect({form: 'addQuestions', creatingQuestion})(AddQuestion)
+// AddQuestion = reduxForm({
+// 	form: 'addTriviaQuestions'
+// })(AddQuestion)
+
+// AddQuestion = connect(null, { creatingQuestion })(AddQuestion)
+// export default AddQuestion; 
+
 
 exports.default = (0, _reactRedux.connect)(null, { creatingQuestion: _questions.creatingQuestion })(AddQuestion);
 
@@ -15634,10 +15614,13 @@ var _questions = __webpack_require__(81);
 
 var _questions2 = _interopRequireDefault(_questions);
 
+var _reduxForm = __webpack_require__(493);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-	questions: _questions2.default
+	questions: _questions2.default,
+	form: _reduxForm.reducer
 });
 
 /***/ }),
