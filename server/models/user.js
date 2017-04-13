@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var db = require('../db').sequelize
+const db = require('../db.js').sequelize;
 
 let User = db.define('user', {
 	username: {

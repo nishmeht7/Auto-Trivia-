@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { creatingQuestion } from '../reducers/questions.js';
 import { creatingAnswer } from '../reducers/answerReducer.js';
 import { Field, FieldArray, reduxForm } from 'redux-form'
@@ -15,12 +15,19 @@ class AddQuestion extends React.Component {
 			questionText: "",
 			questionImgUrl: "",
 			points: 0,
-			answerText: "",
+			answerText: [{rightAns: ""}],
 			correct: false, 
 			
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.onSubmitHandle = this.onSubmitHandle.bind(this);
+		this.handleAddAnswer = this.handleAddAnswer.bind(this);
+	}
+
+	handleAddAnswer(){
+		this.setState({
+			answerText: this.state.answerText.concat([{ rightAns: '' }])
+		});
 	}
 
 
@@ -37,37 +44,6 @@ class AddQuestion extends React.Component {
 		this.props.creatingQuestion(this.state);
 		//this.props.creatingAnswer(this.state);
 
-	}
-
-	renderMembers({ fields }){
-
-		return (
-			  <ul>
-			    <li>
-			      <button type="button" onClick={() => fields.push({})}>Add Member</button>
-			    </li>
-			    {fields.map((member, index) =>
-			      <li key={index}>
-			        <button
-			          type="button"
-			          title="Remove Member"
-			          onClick={() => fields.remove(index)}/>
-			        <h4>Member #{index + 1}</h4>
-			        <Field
-			          name={`${member}.firstName`}
-			          type="text"
-			          component={renderField}
-			          placeholder="First Name"/>
-			        <Field
-			          name={`${member}.lastName`}
-			          type="text"
-			          component={renderField}
-			          placeholder="Last Name"/>
-			        <FieldArray name={`${member}.hobbies`} component={renderHobbies}/>
-			      </li>
-			    )}
-			  </ul>
-		)
 	}
 
 	render(){
@@ -112,15 +88,23 @@ class AddQuestion extends React.Component {
 			                {console.log(this.state.points)}
 		            </div>
 		            <label htmlFor="song" className="col-xs-2 control-label">Answer</label>
-		            <div className="col-xs-10">
-			            <input
-			            	name="answerText"
-			                className="form-control"
-			                type="text"
-			                onChange={handleChange}
-			                value={this.state.answerText}
-			              />
-		            </div>
+		            {this.state.answerText.map((answer, idx) => (
+			            <div className="col-xs-10">
+				            <input
+				            	key={idx}
+				            	name="answerText"
+				                className="form-control"
+				                type="text"
+				                onChange={handleChange}
+				                value={this.state.answerText}
+				              />
+			            </div>
+		            ))}
+		            <button 
+		            type='button' 
+		            onClick={this.handleAddAnswer} 
+		            className='small'
+		            >Add Answer</button>
 		            <label htmlFor="song" className="col-xs-2 control-label">Correct?</label>
 		            <div className="col-xs-10">
 			            <select
@@ -147,5 +131,12 @@ class AddQuestion extends React.Component {
 	}
 }
 
+//export default connect({form: 'addQuestions', creatingQuestion})(AddQuestion)
+// AddQuestion = reduxForm({
+// 	form: 'addTriviaQuestions'
+// })(AddQuestion)
+
+// AddQuestion = connect(null, { creatingQuestion })(AddQuestion)
+// export default AddQuestion; 
 export default connect(null, { creatingQuestion })(AddQuestion);
 
