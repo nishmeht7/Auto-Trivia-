@@ -22,7 +22,7 @@ router.post('/questions', function(req, res) {
 		console.log('saved question', req.body)
 		req.body.answerText.forEach(function(answer){
 	        Answers.create(savedQuestion.id, answer.rightAns, answer.correct,
-				function(savedAnswer) { 
+				function(savedAnswer) {
 					console.log('answer created!!!');
 				})
 		})
@@ -36,6 +36,14 @@ router.post('/questions', function(req, res) {
 router.get('/questions', function (req, res) {
 	Questions.getAllQuestions(function(questions) {
     	res.send(questions)
+	})
+})
+
+router.get('/questions/:qId', function (req, res){
+	var qId = req.params.qId;
+	Questions.fromId(qId)
+	.then(function(question){
+		res.send(question)
 	})
 })
 

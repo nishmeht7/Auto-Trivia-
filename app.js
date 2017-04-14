@@ -23,6 +23,7 @@ app.use('/api', apiRoutes)
 //posting all static files in public folder 
 app.use(express.static('public'));
 
+
 // current homepage 
 app.get('/*', function(req, res){
 	//path.resolve converts the relative paths to an absolute path 

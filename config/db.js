@@ -1,4 +1,4 @@
-// Our configuration for sequalize
+// Our configuration for sequelize
 // For more information:
 //    http://sequelize.readthedocs.io/en/latest/api/sequelize/
 sequelizeConfig = {
