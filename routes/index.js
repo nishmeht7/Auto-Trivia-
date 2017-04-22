@@ -39,5 +39,22 @@ router.get('/questions', function (req, res) {
 	})
 })
 
+
+router.get('/question', function (req, res) {
+	Questions.getOne((question) => {
+		Answers.getByQuestion(question.id, (answers) => {
+            res.json({
+				"question" : question,
+				"answers" : answers
+			})
+
+        })
+	})
+})
+
+router.get('/question/:id', (req, res) => {
+	Questions.
+})
+
 //always remember to export the router 
 module.exports = router;

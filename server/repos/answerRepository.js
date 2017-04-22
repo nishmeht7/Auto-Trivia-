@@ -20,3 +20,16 @@ exports.create = function(questionId, answerText, correctAnswerFlag, callback) {
         QId: questionId
     }).then(function(savedQuestion) { callback(savedQuestion)} )
 }
+
+/**
+ * Retrieves all answers to a given question
+ * @param questionId
+ * @param callback
+ */
+exports.getByQuestion = (questionId, callback) => {
+    Answers.findAll({
+        where : {
+            id : questionId
+        }
+    }).then((answers) => callback(answers))
+}

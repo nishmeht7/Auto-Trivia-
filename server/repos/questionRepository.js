@@ -24,3 +24,14 @@ exports.create = function(question, callback) {
     Questions.create(question)
         .then(function(savedQuestion) { callback(savedQuestion)} )
 }
+
+exports.getOne = (callback) => {
+    Questions.findAll()
+        .then((questions) => {
+            let randomIndex = Math.floor(Math.random() * questions.length)
+            console.log('questions length', questions.length)
+            console.log('randomIndex ', randomIndex)
+
+            callback(questions[randomIndex])
+        })
+}
