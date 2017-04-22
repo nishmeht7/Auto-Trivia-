@@ -12,8 +12,8 @@ export default function TriviaGamePlayExtra(props) {
 		<div className="trivia">
 		      <div>
 				{console.log('inside return ', props)}
-		        <h3>Question: {props.myName}</h3>
-		        <img src={props.myName} className="img-thumbnail"/>
+		        <h3>Question:</h3>
+		        <img src={"www.google.com"} className="img-thumbnail"/>
 		      </div>
 		      <h3>Answer Options: </h3> 
 		      {props.someArr.map(function(elem){

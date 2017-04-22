@@ -6,7 +6,7 @@ sequelizeConfig = {
     host: 'localhost',
     port: 5432,
     database: 'cartrivia',
-    username: 'admin',
+    username: 'nishmeht7',
     password: '',
     dialect: 'postgres',
 

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { displayingQuestion } from '../reducers/gamePlayReducer.js';
+import { displayingQuestion, getRandomQuestion } from '../reducers/gamePlayReducer.js';
 import TriviaGamePlayExtra from '../components/TriviaGamePlayExtra.js';
 
-const mapStateToProps = (state) => ({
-		somekey: state,
-		questionText: 'Fastest production car?',
-		questionImgUrl: 'http://robbreport.com/sites/default/files/images/articles/2015Oct/1784661//tesla-s-p90d-01.jpg',
-		answer: [{answerText: 'P90D', correct: true}, {answerText: 'Corolla', correct: false}]
-})
+function mapStateToProps(state) {
+	return {
+		somekey: state
+	}
+}
 
 const mapDispatchToProps = (dispatch) => ({
-	displayFunc: function(id){
-		dispatch(displayingQuestion(id))	
-	} 
+	// displayFunc: function(){
+	// 	const thunk = getRandomQuestion();
+	// 	dispatch(thunk)	
+	// } 
 })
 
 export class TriviaContainer extends React.Component {
@@ -23,22 +23,49 @@ constructor(){
 }
 
 
-componentDidMount() {
-	this.props.displayFunc(3);
-}
+// componentDidMount() {
+// 	this.props.displayFunc();
+// }
 
+//
 render() {
-	console.log('inside render', this.props)
-	let savedObj = this.props.somekey; 
+	let savedObj = this.props.somekey.gamePlay.question; 
+	
+
 	return (
 
-		<TriviaGamePlayExtra 
-		myName = 'nish'
-		someArr = {['test','test','test']}
-		questObj = {savedObj}
-		/> 
-
+		<div className="trivia">
+		      
+				{console.log('inside return ', savedObj)}
+				{ savedObj ? 
+					(
+					<div>	
+						<h3>
+							Question: { savedObj.question.questionText }
+						</h3>
+						<img src={ savedObj.question.questionImgUrl } className="img-thumbnail"/>
+						<h3>Answer Options: </h3> 
+					      {savedObj.answers.map(function(elem){
+						      	return <div>
+						      		<li>{elem.answerText}</li>
+						      	</div>
+						   })}
+					</div>
+					) : (<h3>Question: </h3>)}
+		        
+		       
+		</div>
 	)
+
+	// return (
+
+	// 	<TriviaGamePlayExtra 
+	// 	myName = 'nish'
+	// 	someArr = {['test','test','test']}
+	// 	questObj = {savedObj}
+	// 	/> 
+
+	// )
 }
 
 }

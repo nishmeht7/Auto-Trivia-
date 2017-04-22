@@ -7,7 +7,8 @@ let Questions = db.define('questions', {
 		type: Sequelize.TEXT, 
 	},
 	questionImgUrl: {
-		type: Sequelize.STRING 
+		type: Sequelize.STRING, 
+		defaultValue: "https://i.ytimg.com/vi/Rm5OLvgVen0/maxresdefault.jpg"
 	},
 	points: {
 		type: Sequelize.INTEGER, 
