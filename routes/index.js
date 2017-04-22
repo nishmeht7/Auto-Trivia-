@@ -56,5 +56,13 @@ router.get('/question/:id', (req, res) => {
 	Questions.
 })
 
-//always remember to export the router 
+router.get('/questions/:qId', function (req, res){
+	var qId = req.params.qId;
+	Questions.fromId(qId)
+	.then(function(question){
+		res.send(question)
+	})
+})
+
+//always remember to export the router
 module.exports = router;

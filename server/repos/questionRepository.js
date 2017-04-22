@@ -15,6 +15,14 @@ exports.getAllQuestions = function(callback) {
         .then(function(questions) { callback(questions)})
 }
 
+
+/**
+* Finds a single question in the system 
+* from a passed in id 
+*/
+exports.fromId = function(id) {
+	return Questions.findById(id)
+}
 /**
  * Creates a single question
  * @param question to add (should be the req.body)
