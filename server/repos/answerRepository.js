@@ -29,7 +29,7 @@ exports.create = function(questionId, answerText, correctAnswerFlag, callback) {
 exports.getByQuestion = (questionId, callback) => {
     Answers.findAll({
         where : {
-            id : questionId
+            QId : questionId
         }
     }).then((answers) => callback(answers))
 }

@@ -39,28 +39,39 @@ router.get('/questions', function (req, res) {
 	})
 })
 
-
-router.get('/question', function (req, res) {
-	Questions.getOne((question) => {
+/**
+ * Returns a random question
+ */
+router.get('/questions/getRandom', function (req, res) {
+	Questions.getRandomOne((question) => {
 		Answers.getByQuestion(question.id, (answers) => {
             res.json({
 				"question" : question,
 				"answers" : answers
 			})
-
         })
 	})
 })
 
-router.get('/question/:id', (req, res) => {
-	Questions.
-})
-
-router.get('/questions/:qId', function (req, res){
-	var qId = req.params.qId;
+/**
+ * Returns a question by a given id
+ */
+router.get('/questions/:id', function (req, res){
+	let qId = req.params.id;
 	Questions.fromId(qId)
 	.then(function(question){
-		res.send(question)
+
+		// Check if the question DNE, if so return an empty JSON object
+		if (question == undefined) {
+			res.json({})
+		} else {
+			Answers.getByQuestion(question.id, (answers) => {
+				res.json({
+					"question" : question,
+					"answers" : answers
+				})
+			})
+        }
 	})
 })
 

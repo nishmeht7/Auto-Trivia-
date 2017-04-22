@@ -33,7 +33,11 @@ exports.create = function(question, callback) {
         .then(function(savedQuestion) { callback(savedQuestion)} )
 }
 
-exports.getOne = (callback) => {
+/**
+ * Returns a single question, randomly selected
+ * @param callback function
+ */
+exports.getRandomOne = (callback) => {
     Questions.findAll()
         .then((questions) => {
             let randomIndex = Math.floor(Math.random() * questions.length)
