@@ -33,3 +33,20 @@ exports.getByQuestion = (questionId, callback) => {
         }
     }).then((answers) => callback(answers))
 }
+
+/**
+ * Returns the correct answer (id) to the given question
+ * @param questionId question to lookup
+ * @param callback call back function
+ */
+exports.getCorrectAnswerId = (questionId, callback) => {
+    Answers.findOne({
+        where : {
+            QId : questionId,
+            correct : true
+        }
+    }).then((answer) => {
+        if (answer) callback(answer.id)
+        else callback(undefined)
+    })
+}

@@ -57,9 +57,9 @@ router.get('/questions/getRandom', function (req, res) {
  * Returns a question by a given id
  */
 router.get('/questions/:id', function (req, res){
-	let qId = req.params.id;
+	let qId = req.params.id
 	Questions.fromId(qId)
-	.then(function(question){
+		.then(function(question){
 
 		// Check if the question DNE, if so return an empty JSON object
 		if (question == undefined) {
@@ -72,6 +72,22 @@ router.get('/questions/:id', function (req, res){
 				})
 			})
         }
+	})
+})
+
+
+/**
+ * When the user guesses on a question, this endpoint returns if the question and answer combo are correct
+ */
+router.post('/questions/:id/guess/:Aid', function (req, res) {
+	let questionId = req.params.id
+	let userAnswerId = req.params.Aid
+
+	Answers.getCorrectAnswerId(questionId, (answerId) => {
+		// Return if the user guessed correctly
+		res.json({
+			"correct" : answerId == userAnswerId
+		})
 	})
 })
 
