@@ -41,9 +41,6 @@ exports.getRandomOne = (callback) => {
     Questions.findAll()
         .then((questions) => {
             let randomIndex = Math.floor(Math.random() * questions.length)
-            console.log('questions length', questions.length)
-            console.log('randomIndex ', randomIndex)
-
             callback(questions[randomIndex])
         })
 }
