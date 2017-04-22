@@ -31,18 +31,19 @@ export function displayingQuestion(id){
 /*Reducer*/
 
 
-export default function gamePlayReducer (prevState=[], action) {
+export default function gamePlayReducer (prevState={}, action) {
 
-	const newState = [...prevState];
+	//const newState = [...prevState];
+	const newState = Object.assign({}, prevState); 
 
 	switch(action.type) {
 		
 		case GET_QUESTION:
-		newState.push(action.question)
-		break;
+			newState.question = action.question;
+			break;
 
 		default: 
-		return prevState
+			return prevState
 	}
 	return newState;
 
