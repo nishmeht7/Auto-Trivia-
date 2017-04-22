@@ -39,5 +39,57 @@ router.get('/questions', function (req, res) {
 	})
 })
 
-//always remember to export the router 
+/**
+ * Returns a random question
+ */
+router.get('/questions/getRandom', function (req, res) {
+	Questions.getRandomOne((question) => {
+		Answers.getByQuestion(question.id, (answers) => {
+            res.json({
+				"question" : question,
+				"answers" : answers
+			})
+        })
+	})
+})
+
+/**
+ * Returns a question by a given id
+ */
+router.get('/questions/:id', function (req, res){
+	let qId = req.params.id
+	Questions.fromId(qId)
+		.then(function(question){
+
+		// Check if the question DNE, if so return an empty JSON object
+		if (question == undefined) {
+			res.json({})
+		} else {
+			Answers.getByQuestion(question.id, (answers) => {
+				res.json({
+					"question" : question,
+					"answers" : answers
+				})
+			})
+        }
+	})
+})
+
+
+/**
+ * When the user guesses on a question, this endpoint returns if the question and answer combo are correct
+ */
+router.post('/questions/:id/guess/:Aid', function (req, res) {
+	let questionId = req.params.id
+	let userAnswerId = req.params.Aid
+
+	Answers.getCorrectAnswerId(questionId, (answerId) => {
+		// Return if the user guessed correctly
+		res.json({
+			"correct" : answerId == userAnswerId
+		})
+	})
+})
+
+//always remember to export the router
 module.exports = router;

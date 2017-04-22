@@ -20,3 +20,33 @@ exports.create = function(questionId, answerText, correctAnswerFlag, callback) {
         QId: questionId
     }).then(function(savedQuestion) { callback(savedQuestion)} )
 }
+
+/**
+ * Retrieves all answers to a given question
+ * @param questionId
+ * @param callback
+ */
+exports.getByQuestion = (questionId, callback) => {
+    Answers.findAll({
+        where : {
+            QId : questionId
+        }
+    }).then((answers) => callback(answers))
+}
+
+/**
+ * Returns the correct answer (id) to the given question
+ * @param questionId question to lookup
+ * @param callback call back function
+ */
+exports.getCorrectAnswerId = (questionId, callback) => {
+    Answers.findOne({
+        where : {
+            QId : questionId,
+            correct : true
+        }
+    }).then((answer) => {
+        if (answer) callback(answer.id)
+        else callback(undefined)
+    })
+}

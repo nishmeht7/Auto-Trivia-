@@ -15,6 +15,14 @@ exports.getAllQuestions = function(callback) {
         .then(function(questions) { callback(questions)})
 }
 
+
+/**
+* Finds a single question in the system 
+* from a passed in id 
+*/
+exports.fromId = function(id) {
+	return Questions.findById(id)
+}
 /**
  * Creates a single question
  * @param question to add (should be the req.body)
@@ -23,4 +31,16 @@ exports.getAllQuestions = function(callback) {
 exports.create = function(question, callback) {
     Questions.create(question)
         .then(function(savedQuestion) { callback(savedQuestion)} )
+}
+
+/**
+ * Returns a single question, randomly selected
+ * @param callback function
+ */
+exports.getRandomOne = (callback) => {
+    Questions.findAll()
+        .then((questions) => {
+            let randomIndex = Math.floor(Math.random() * questions.length)
+            callback(questions[randomIndex])
+        })
 }
