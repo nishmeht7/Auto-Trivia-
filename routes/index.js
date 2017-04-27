@@ -79,7 +79,7 @@ router.get('/questions/:id', function (req, res){
 /**
  * When the user guesses on a question, this endpoint returns if the question and answer combo are correct
  */
-router.post('/questions/:id/guess/:Aid', function (req, res) {
+router.get('/questions/:id/guess/:Aid', function (req, res) {
 	let questionId = req.params.id
 	let userAnswerId = req.params.Aid
 

@@ -1,0 +1,17 @@
+.mainFlexContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.answerFlex {
+	display: flex;
+	flex-wrap: wrap;
+	align-content: space-around;
+	justify-content: space-around;
+	height: 150px;
+}
+
+.answerItems {
+	width: 40%;
+}
