@@ -4,6 +4,11 @@
 	align-items: center;
 }
 
+.timerFlex {
+	display: flex;
+	justify-content: space-around;		
+}
+
 .answerFlex {
 	display: flex;
 	flex-wrap: wrap;

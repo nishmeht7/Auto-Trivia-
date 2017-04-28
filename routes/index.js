@@ -53,6 +53,27 @@ router.get('/questions/getRandom', function (req, res) {
 	})
 })
 
+
+/**
+ * Returns the points to a question given an id
+ */
+
+router.get('/questions/points/:id', function (req, res) {
+	let qId = req.params.id
+	Questions.fromId(qId)
+		.then(function(question){
+			if (question == undefined) {
+				res.json({})
+			}
+			else {
+				res.json({
+					points: question.points,
+				})
+			}
+		})
+})
+
+
 /**
  * Returns a question by a given id
  */

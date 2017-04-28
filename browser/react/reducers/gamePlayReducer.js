@@ -29,7 +29,6 @@ export function gettingQuestion (question) {
 // }
 
 export function getRandomQuestion(){
-
 	return function(dispatch) {
 		return axios.get('api/questions/getRandom')
 		.then(function(response){
@@ -42,13 +41,16 @@ export function getRandomQuestion(){
 	}
 }
 
+//thunk to go to next question 
+
+
+
 /*Reducer*/
 let initialState = {}
 
 
 export default function gamePlayReducer (prevState=initialState, action) {
 
-	//const newState = [...prevState];
 	const newState = Object.assign({}, prevState); 
 
 	switch(action.type) {
