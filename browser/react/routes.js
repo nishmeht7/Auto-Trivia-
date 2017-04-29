@@ -5,18 +5,28 @@ import AddQuestion from './components/addQuestion.js';
 import store from './store.js';
 import axios from 'axios';
 import RootContainer from './components/Root'
-import { gettingQuestion } from './reducers/gamePlayReducer.js'
+//import { gettingQuestion } from './reducers/gamePlayReducer.js'
+const gamePlayReducer = require('../../server/redux/gamePlayReducer')
+const gettingQuestion = gamePlayReducer.gettingQuestion
 import TriviaContainer from './containers/TriviaContainer.js';
+import io from 'socket.io-client'
+import { initializeSocket } from './sockets'
+
+
+// const onSocketEnter = (nextState) => {
+// 	initializeSocket() 
+// }
 
 const onTriviaEnter = (nextState) => {
-	axios.get(`api/questions/getRandom`)
-		.then(res => res.data)
-		.then(randoQuest => {
-			store.dispatch(gettingQuestion(randoQuest))
-		})
-		.catch(err => {
-			console.error(err)
-		})
+	initializeSocket()
+	// axios.get(`api/questions/getRandom`)
+	// 	.then(res => res.data)
+	// 	.then(randoQuest => {
+	// 		store.dispatch(gettingQuestion(randoQuest))
+	// 	})
+	// 	.catch(err => {
+	// 		console.error(err)
+	// 	})
 }
 
 

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import io from 'socket.io-client'
 
 /*Set Action*/
 const ADD_POINTS = 'ADD_POINTS'
@@ -18,6 +19,9 @@ export function addThePoints(qId) {
 		return axios.get(`api/questions/points/${qId}`)
 				.then(function (result){
 					dispatch(addingPoints(result.data.points))
+					// io.emit('updateListening', function(){
+					// 	console.log('the points to add are', result.data.points)
+					// })
 				})
 	}
 }
