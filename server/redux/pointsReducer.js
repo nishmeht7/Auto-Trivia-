@@ -1,21 +1,20 @@
-import axios from 'axios'
-//import io from 'socket.io-client'
-import { updatePoints } from '../sockets'
 
 /*Set Action*/
 const ADD_POINTS = 'ADD_POINTS'
 
 /*Action Creators*/
-export function addingPoints(points) {
+const addingPoints = function(id, points) {
 	return {
 		type: ADD_POINTS,
-		points: points
+		points: points,
+		id,
+
 	}
 }
 
 
 /*Thunks*/
-export function addThePoints(qId) {
+const addThePoints = function (qId) {
 	return function (dispatch) {
 		return axios.get(`api/questions/points/${qId}`)
 				.then(function (result){
@@ -32,10 +31,10 @@ let initialState = {
 }
 
 /*Reducers*/
-export default function pointsReducers(prevState = initialState, action) {
+const pointsReducer = function (prevState = initialState, action) {
 
 	let newState = Object.assign({}, prevState)
-
+	console.log('the action obj', action)
 	switch(action.type) {
 
 		case ADD_POINTS:
@@ -47,4 +46,11 @@ export default function pointsReducers(prevState = initialState, action) {
 	}
 
 	return newState
+}
+
+module.exports = {
+	ADD_POINTS, 
+	addingPoints,
+	addThePoints,
+	pointsReducer,
 }

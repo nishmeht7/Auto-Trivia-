@@ -10,7 +10,6 @@ export function recieveQuestion(question){
 
 
 export function creatingQuestion(question){
-	
 	return function(dispatch) {
 		console.log('question', question);
 		return axios.post('/api/questions', question)
@@ -19,13 +18,13 @@ export function creatingQuestion(question){
 			dispatch(recieveQuestion(question));
 		})
 		.catch(function(err){
-			console.log(err); 
+			console.log(err);
 		});
 	}
 }
 
 
-export default function questionReducer(prevState=[], action){
+export default function questionReducer(prevState = [], action){
 
 	const newState = [...prevState];
 

@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addThePoints } from '../reducers/points'
 import { displayingQuestion, getRandomQuestion } from '../reducers/gamePlayReducer.js';
-const ReactCountdownClock = require('react-countdown-clock')
 import io from 'socket.io-client'
+import { getNextQuestion } from '../sockets'
+import swal from 'sweetalert'
+const ReactCountdownClock = require('react-countdown-clock')
 //import TriviaGamePlayExtra from '../components/TriviaGamePlayExtra.js';
 
 
@@ -20,28 +22,32 @@ class TriviaContainer extends React.Component {
 		//event.preventDefault()
 		let answerBool = event.target.attributes.value.value
 		let questionId = event.target.id
-		if(answerBool === "true") {
+		if(answerBool === 'true') {
 			store.dispatch(addThePoints(questionId))
-			.then(function(){
-				console.log('points:', props.totalPoints)})
+			swal('Good job!', 'GREAT CHOICE!!!', 'success')
+		}
+		else {
+			swal('Oops...', 'WRONG ANSWER!', 'error');
 		}
 	}
 
 	onNextButton(event){
 		event.preventDefault()
-		store.dispatch(getRandomQuestion())
+		//store.dispatch(getRandomQuestion())
+		getNextQuestion()
 	}
 
 	render() {
 		let triviaObj = this.props.triviaObj
 		let currentPoints = this.props.totalPoints
+		let opponentPoints = this.props.opponentPoints
 		//let handleSubmit = this.handleSubmit
 		let onButtonClick = this.onButtonClick
 		let onNextButton = this.onNextButton
 		return (
 
-			<div className="trivia">      
-				{console.log('inside return ', this.props)}
+			<div>
+			<div className="parentFlexContainer">      
 
 				{
 					triviaObj ?
@@ -52,6 +58,9 @@ class TriviaContainer extends React.Component {
 						</h3>
 						<h4>
 							Your Score: {currentPoints}
+						</h4>
+						<h4>
+							Your Opponent: {opponentPoints}
 						</h4>
 						<img src={ triviaObj.question.questionImgUrl } className="img-thumbnail" width="500" height="500"/>
 								<h3>Choose Your Answer </h3> 
@@ -66,18 +75,21 @@ class TriviaContainer extends React.Component {
 							<button className=" btn-success">
 							<span onClick={onNextButton}>Next Question</span>
 							</button>
-				            <ReactCountdownClock className='timerFlex'
-									 seconds={60}
-				                     color="#000"
-				                     alpha={0.9}
-				                     size={75}
-				                      />
 					</div>
 					)
 					:
 					(<h3>Question: </h3>)}
 			</div>
-	)
+			<div className='timerFlex'>
+            <ReactCountdownClock
+					 seconds={60}
+                     color="#000"
+                     alpha={0.9}
+                     size={75}
+                      />
+            </div>
+            </div>
+	)	
 	}
 }
 
@@ -89,6 +101,7 @@ function mapStateToProps(state) {
 	return {
 		triviaObj: state.gamePlay.question,
 		totalPoints: state.points.points,
+		opponentPoints: state.opponent.points,
 	}
 }
 

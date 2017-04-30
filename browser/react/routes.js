@@ -11,6 +11,7 @@ const gettingQuestion = gamePlayReducer.gettingQuestion
 import TriviaContainer from './containers/TriviaContainer.js';
 import io from 'socket.io-client'
 import { initializeSocket } from './sockets'
+import HomePageContainer from './containers/HomePageContainer'
 
 
 // const onSocketEnter = (nextState) => {
@@ -35,6 +36,7 @@ export default function Root () {
     <Provider store={store}>
       <Router history={browserHistory}>
       	<Route path='/root' component={RootContainer}>
+      		<Route path="/" component={HomePageContainer} />
 	        <Route path="/addquestion" component={AddQuestion} />
 	        <Route path="/questions" component={TriviaContainer} onEnter={onTriviaEnter}/>
 	    </Route>    
