@@ -6,7 +6,7 @@
 	transition: $element 0.15s ease-in-out;
 }
 
-#body {
+.homeBody {
   background: grey;
   font-family: "Arial";
   background-image: url(http://24.media.tumblr.com/abbd3d80c95a8e2b7576246b12a9f671/tumblr_n0fwypACUa1slhhf0o1_1280.jpg);
@@ -152,7 +152,7 @@ i {
 }
 
 .answerItems {
-	width: 40%;
+	width: 33.4%;
 }
 
 .parentFlexContainer {

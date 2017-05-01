@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addThePoints } from '../reducers/points'
 import { displayingQuestion, getRandomQuestion } from '../reducers/gamePlayReducer.js';
 import io from 'socket.io-client'
-import { getNextQuestion } from '../sockets'
+import { getNextQuestion, getQuestion, initializeSocket } from '../sockets'
 import swal from 'sweetalert'
 const ReactCountdownClock = require('react-countdown-clock')
 //import TriviaGamePlayExtra from '../components/TriviaGamePlayExtra.js';
@@ -16,6 +16,7 @@ class TriviaContainer extends React.Component {
 		super()
 		this.onButtonClick = this.onButtonClick.bind(this)
 		this.onNextButton = this.onNextButton.bind(this)
+		console.log('this props are cray', this.props)
 	}
 
 	onButtonClick(event){
@@ -25,6 +26,7 @@ class TriviaContainer extends React.Component {
 		if(answerBool === 'true') {
 			store.dispatch(addThePoints(questionId))
 			swal('Good job!', 'GREAT CHOICE!!!', 'success')
+			getQuestion()
 		}
 		else {
 			swal('Oops...', 'WRONG ANSWER!', 'error');
@@ -34,16 +36,102 @@ class TriviaContainer extends React.Component {
 	onNextButton(event){
 		event.preventDefault()
 		//store.dispatch(getRandomQuestion())
-		getNextQuestion()
+		getQuestion()
 	}
 
+	
+		// whoWon(totalPoints, opponentPoints){
+		// 	//console.log('hitting who won', console.log(this.props))
+		// 	if (opponentPoints > totalPoints) {
+		// 		swal({
+		// 		  title: "STOP",
+		// 		  text: "You LOST!!!",
+		// 		  imageUrl: "https://cdn1.iconfinder.com/data/icons/the-competition/450/loser-512.png"
+		// 		});
+		// 	}
+		// 	else if (opponentPoints < totalPoints) {
+		// 		swal({
+		// 		  title: "You WON!!!",
+		// 		  text: "Here's a custom image.",
+		// 		  imageUrl: "images/thumbs-up.jpg"
+		// 		});
+		// 	}
+
+
+		// else if (this.props.opponentPoints === this.props.totalPoints) {
+		// 	swal({
+		// 	  title: "It's a TIE!",
+		// 	  text: "Rematch?",
+		// 	  type: "warning",
+		// 	  showCancelButton: true,
+		// 	  confirmButtonColor: "#DD6B55",
+		// 	  confirmButtonText: "Yes!",
+		// 	  cancelButtonText: "No, I'm a Loser",
+		// 	  closeOnConfirm: false,
+		// 	  closeOnCancel: false
+		// 	},
+		// 	function(isConfirm){
+		// 	  if (isConfirm) {
+		// 	    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+		// 	  } else {
+		// 	    swal("Cancelled", "Your imaginary file is safe :)", "error");
+		// 	  }
+		// 	});
+		// }
+
+	
+
 	render() {
+
 		let triviaObj = this.props.triviaObj
 		let currentPoints = this.props.totalPoints
 		let opponentPoints = this.props.opponentPoints
 		//let handleSubmit = this.handleSubmit
 		let onButtonClick = this.onButtonClick
 		let onNextButton = this.onNextButton
+
+		function whoWon(){
+			console.log('hitting who won', console.log(this.props))
+			if (opponentPoints > currentPoints) {
+				swal({
+				  title: "STOP",
+				  text: "You LOST!!!",
+				  imageUrl: "https://cdn1.iconfinder.com/data/icons/the-competition/450/loser-512.png"
+				});
+			}
+			else if (opponentPoints < currentPoints) {
+				swal({
+				  title: "You WON!!!",
+				  text: "You scored a " + currentPoints + " points!!",
+				  imageUrl: "https://www.safetyrevolution.co.uk/wp-content/uploads/2014/12/Safety-Competition-Winner.jpg"
+				});
+			}
+
+			else if (this.props.opponentPoints === this.props.totalPoints) {
+				swal({
+				  title: "It's a TIE!",
+				  text: "Rematch?",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Yes!",
+				  cancelButtonText: "No, I'm a Loser",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+				    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+				  } else {
+				    swal("Cancelled", "Your imaginary file is safe :)", "error");
+				  }
+				});
+			}
+
+
+		}
+
+
 		return (
 
 			<div>
@@ -82,10 +170,11 @@ class TriviaContainer extends React.Component {
 			</div>
 			<div className='timerFlex'>
             <ReactCountdownClock
-					 seconds={60}
+					 seconds={15}
                      color="#000"
                      alpha={0.9}
                      size={75}
+                     onComplete={whoWon}
                       />
             </div>
             </div>

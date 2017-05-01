@@ -13,6 +13,8 @@ import { updateOpponent } from './reducers/opponentPoints'
 // }
 const GET_QUESTION = 'GET_QUESTION'
 var playerId
+let allQuestions
+let allAnswers
 
 const socket = io(window.location.origin)
 export function initializeSocket() {
@@ -22,15 +24,16 @@ export function initializeSocket() {
 
 
 		socket.on('allData', function(data) {
-			console.log('all data is', data)
+			//console.log('all data is', data)
+			allQuestions = data.questions
+			allAnswers = data.answers
+			let gettingQuestion = getQuestion()
+			//let gettingQuestion = getQuestion(data.questions, data.answers)
+			//console.log(gettingQuestion)
+			// store.dispatch({type: GET_QUESTION, question: gettingQuestion})
 		})
 
-		socket.on('randomQuestion', function(e){
-			//console.log('the question was trigerred', e, socket)
-			playerId = socket.id
-			//console.log('playerId is', playerId)
-			store.dispatch({type: GET_QUESTION, question: e})
-		})
+
 
 		socket.on('pointsAreUpdated', function(){
 			console.log('the points were updated proper!')
@@ -41,6 +44,23 @@ export function initializeSocket() {
 			store.dispatch(updateOpponent(e))
 		})
 
+}
+
+export function getQuestion() {
+	let questionObj = {}
+	let id
+	console.log('***All Questions***', allQuestions)
+	if (allQuestions.length) {
+		questionObj.question = allQuestions[0]
+		id = allQuestions[0].id
+
+		questionObj.answers = allAnswers.filter(function(answer){
+			return answer.QId == id
+		})
+		allQuestions.shift()
+		store.dispatch({type: GET_QUESTION, question: questionObj})
+	}
+	return questionObj
 }
 
 export function testListener() {

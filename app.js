@@ -67,7 +67,7 @@ function getAllQuestion() {
 	return tableOne.findAll()
 			.then((questions) => {
 				questions.forEach(function(question) {
-					console.log('the question is !!!!!!', question.dataValues)
+					//console.log('the question is !!!!!!', question.dataValues)
 					allQuestions.push(question.dataValues)
 				})
 			})
@@ -129,7 +129,7 @@ tableOne.sync({})
 		})
 	}
 
-	console.log('****************', allAnswers)
+	//console.log('****************', allAnswers)
 
 
 	// let currState = store.getState().player
@@ -149,25 +149,25 @@ tableOne.sync({})
 	// 	}
 	// }
 
-	function updateClientQuestion() {
-		socket.emit('randomQuestion', {question: questionStored, answers: answerStored})
-	}
+	// function updateClientQuestion() {
+	// 	socket.emit('randomQuestion', {question: questionStored, answers: answerStored})
+	// }
 
 	function giveClientAllData() {
 		socket.emit('allData', {questions: allQuestions, answers: allAnswers})
 	}
 
 	store.subscribe(() => {
-		updateClientQuestion()
+		//updateClientQuestion()
 		updatePointsServerSide()
 	})
 
 	//emit this in the beginning to update the client store with questions
 	//updatePoints()
 	giveClientAllData()
-	updateClientQuestion()
+	//updateClientQuestion()
 	updatePointsServerSide()
-	store.dispatch(gettingQuestion({type: GET_QUESTION, question: {question: questionStored, answers: answerStored} }))
+	//store.dispatch(gettingQuestion({type: GET_QUESTION, question: {question: questionStored, answers: answerStored} }))
 
 	//console.log('the store is',store.getState())
 

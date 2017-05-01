@@ -16,7 +16,7 @@ class HomePageContainer extends React.Component {
 		return (
 
 			
-			<div id="body">
+			<div id="homeBody">
 				<div>
 				<a href="/questions" className="shinyContainer">
 				  Are You Ready?
