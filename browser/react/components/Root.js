@@ -38,6 +38,7 @@ class Root extends React.Component {
 				            </li>
 				        </ul>
 				        <ul className="nav navbar-nav navbar-right">
+				            <li><a href="/addquestion">Add Questions</a></li>
 				            <li><a href="#">Login</a></li>
 				        </ul>
 				    </div>

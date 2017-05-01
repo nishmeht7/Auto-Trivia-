@@ -9,7 +9,6 @@ const { playerReducer } = require('./playerReducer')
 
 
 
-
 const rootReducer = combineReducers({
 	gamePlay: gamePlayReducer,
 	points: pointsReducer,

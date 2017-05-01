@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { addThePoints } from '../reducers/points'
 import { displayingQuestion, getRandomQuestion } from '../reducers/gamePlayReducer.js';
 import io from 'socket.io-client'
-import { getNextQuestion, getQuestion, initializeSocket } from '../sockets'
+import { getNextQuestion, getQuestion, initializeSocket, allPlayers } from '../sockets'
 import swal from 'sweetalert'
 const ReactCountdownClock = require('react-countdown-clock')
 //import TriviaGamePlayExtra from '../components/TriviaGamePlayExtra.js';
@@ -79,16 +79,18 @@ class TriviaContainer extends React.Component {
 		// 	});
 		// }
 
-	
-
 	render() {
 
 		let triviaObj = this.props.triviaObj
 		let currentPoints = this.props.totalPoints
 		let opponentPoints = this.props.opponentPoints
+		let allThePlayers = this.props.allThePlayers
 		//let handleSubmit = this.handleSubmit
 		let onButtonClick = this.onButtonClick
 		let onNextButton = this.onNextButton
+
+		let totalPlayers = allPlayers()
+		console.log('the total players are ', totalPlayers)
 
 		function whoWon(){
 			console.log('hitting who won', console.log(this.props))
@@ -102,12 +104,12 @@ class TriviaContainer extends React.Component {
 			else if (opponentPoints < currentPoints) {
 				swal({
 				  title: "You WON!!!",
-				  text: "You scored a " + currentPoints + " points!!",
+				  text: "You scored " + currentPoints + " points!!",
 				  imageUrl: "https://www.safetyrevolution.co.uk/wp-content/uploads/2014/12/Safety-Competition-Winner.jpg"
 				});
 			}
 
-			else if (this.props.opponentPoints === this.props.totalPoints) {
+			else if (opponentPoints === currentPoints) {
 				swal({
 				  title: "It's a TIE!",
 				  text: "Rematch?",
@@ -121,10 +123,10 @@ class TriviaContainer extends React.Component {
 				},
 				function(isConfirm){
 				  if (isConfirm) {
-				    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+				  	window.location.href = 'http://localhost:3001/questions';
+				    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
 				  } else {
-				    swal("Cancelled", "Your imaginary file is safe :)", "error");
-				  }
+				    window.location.href = 'http://localhost:3001/';				  }
 				});
 			}
 
@@ -132,53 +134,61 @@ class TriviaContainer extends React.Component {
 		}
 
 
-		return (
 
-			<div>
-			<div className="parentFlexContainer">      
+			return (
 
-				{
-					triviaObj ?
-					(
-					<div className='mainFlexContainer'>
-						<h3>
-							{ triviaObj.question.questionText }
-						</h3>
-						<h4>
-							Your Score: {currentPoints}
-						</h4>
-						<h4>
-							Your Opponent: {opponentPoints}
-						</h4>
-						<img src={ triviaObj.question.questionImgUrl } className="img-thumbnail" width="500" height="500"/>
-								<h3>Choose Your Answer </h3> 
-							<div className='answerFlex'>
-							        {triviaObj.answers.map(function(elem){
-							      		return	(<button className="answerItems btn-info">
-								      	    	<span id={elem.QId} value={elem.correct} onClick={onButtonClick}>{elem.answerText}</span>
-								      	    	</button>)
-				
-								    })}
-							</div>
-							<button className=" btn-success">
-							<span onClick={onNextButton}>Next Question</span>
-							</button>
-					</div>
-					)
-					:
-					(<h3>Question: </h3>)}
-			</div>
-			<div className='timerFlex'>
-            <ReactCountdownClock
-					 seconds={15}
-                     color="#000"
-                     alpha={0.9}
-                     size={75}
-                     onComplete={whoWon}
-                      />
-            </div>
-            </div>
-	)	
+
+				<div>
+				{allThePlayers.length > 1 ? (<div>
+				<div className="parentFlexContainer">      
+
+					{
+						triviaObj ?
+						(
+						<div className='mainFlexContainer'>
+							<h3>
+								{ triviaObj.question.questionText }
+							</h3>
+							<h4>
+								Your Score: {currentPoints}
+							</h4>
+							<h4>
+								Your Opponent: {opponentPoints}
+							</h4>
+							<img src={ triviaObj.question.questionImgUrl } className="img-thumbnail" width="500" height="500"/>
+									<h3>Choose Your Answer </h3> 
+								<div className='answerFlex'>
+								        {triviaObj.answers.map(function(elem){
+								      		return	(<button className="answerItems btn-info">
+									      	    	<span id={elem.QId} value={elem.correct} onClick={onButtonClick}>{elem.answerText}</span>
+									      	    	</button>)
+					
+									    })}
+								</div>
+								<div>
+									<button className=" btn-success">
+									<span onClick={onNextButton}>Next Question</span>
+									</button>
+								</div>
+						</div>
+						)
+						:
+						(<h3>Question: </h3>)}
+				</div>
+				<div className='timerFlex'>
+	            <ReactCountdownClock
+						 seconds={15}
+	                     color="#000"
+	                     alpha={0.9}
+	                     size={75}
+	                     onComplete={whoWon}
+	                      />
+	            </div></div>) 
+				:
+				(<h3>waiting for players...</h3>)
+				}
+	            </div>
+		)	
 	}
 }
 
@@ -191,6 +201,7 @@ function mapStateToProps(state) {
 		triviaObj: state.gamePlay.question,
 		totalPoints: state.points.points,
 		opponentPoints: state.opponent.points,
+		allThePlayers: state.player
 	}
 }
 

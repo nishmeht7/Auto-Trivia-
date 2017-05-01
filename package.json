@@ -19,6 +19,7 @@
     "express": "^4.15.2",
     "morgan": "^1.8.1",
     "nunjucks": "^3.0.0",
+    "particles.js": "^2.0.0",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "react": "^15.5.4",

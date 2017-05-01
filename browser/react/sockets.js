@@ -1,6 +1,7 @@
 import io from 'socket.io-client'
 import store from './store'
 import { updateOpponent } from './reducers/opponentPoints'
+import { addPlayer } from './reducers/newPlayerReducer'
 
 // export function initializeSocket() {
 // 	return function(dispatch) {
@@ -15,6 +16,7 @@ const GET_QUESTION = 'GET_QUESTION'
 var playerId
 let allQuestions
 let allAnswers
+let totalPlayers
 
 const socket = io(window.location.origin)
 export function initializeSocket() {
@@ -33,7 +35,17 @@ export function initializeSocket() {
 			// store.dispatch({type: GET_QUESTION, question: gettingQuestion})
 		})
 
+		socket.on('newPlayer', function(playerSocket){
+			console.log('new player id is', playerSocket)
+			store.dispatch(addPlayer(playerSocket))
+		})
 
+		socket.on('multiPlayerReady', function(players) {
+			totalPlayers = players
+			console.log('both players have joined!!!!', totalPlayers)
+
+			//window.location.href = 'http://localhost:3001/questions';
+		})
 
 		socket.on('pointsAreUpdated', function(){
 			console.log('the points were updated proper!')
@@ -44,6 +56,15 @@ export function initializeSocket() {
 			store.dispatch(updateOpponent(e))
 		})
 
+}
+
+export function allPlayers() {
+	let returnedPlayers = false
+	console.log('the total players in socket', totalPlayers)
+	if (totalPlayers && totalPlayers.length === 2) {
+		returnedPlayers = true
+	}
+	return returnedPlayers
 }
 
 export function getQuestion() {

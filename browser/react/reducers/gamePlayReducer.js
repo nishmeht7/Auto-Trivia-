@@ -13,20 +13,7 @@ export function gettingQuestion (question) {
 
 
 /*Thunks*/
-// export function displayingQuestion(id){
-	
-// 	return function(dispatch) {
-// 		//console.log('question', question);
-// 		return axios.get(`/api/questions/${id}`)
-// 		.then(function(response){
-// 		console.log('question 2', response);
-// 			dispatch(gettingQuestion(response.data));
-// 		})
-// 		.catch(function(err){
-// 			console.log(err); 
-// 		});
-// 	}
-// }
+
 
 export function getRandomQuestion(){
 	return function(dispatch) {
@@ -41,25 +28,21 @@ export function getRandomQuestion(){
 	}
 }
 
-//thunk to go to next question 
-
-
 
 /*Reducer*/
 let initialState = {}
 
 
-export default function gamePlayReducer (prevState=initialState, action) {
+export default function gamePlayReducer (prevState = initialState, action) {
 
-	const newState = Object.assign({}, prevState); 
+	const newState = Object.assign({}, prevState);
 
-	switch(action.type) {
-		
+	switch (action.type) {
 		case GET_QUESTION:
 			newState.question = action.question;
 			break;
 
-		default: 
+		default:
 			return prevState
 	}
 	return newState;

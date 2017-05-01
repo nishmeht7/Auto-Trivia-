@@ -2,6 +2,11 @@ import store from '../store'
 import React from 'react';
 import { connect } from 'react-redux';
 
+const STYLE = {
+	listStyle: {
+		list: "none" 
+	}
+}
 
 class HomePageContainer extends React.Component {
 
@@ -16,12 +21,16 @@ class HomePageContainer extends React.Component {
 		return (
 
 			
-			<div id="homeBody">
+			<div className="homeBody">
 				<div>
-				<a href="/questions" className="shinyContainer">
-				  Are You Ready?
+				<span className="shinyContainer">
+				  Pick Your Game
 				  <i></i>
-				</a>
+				<ul className="ulStyle" style={{listStyleType: "none"}}>
+				<a href="/singleplayer" ><li>Single Player</li></a>
+				<a href="/questions" ><li>Multi-Player</li></a>
+				</ul>
+				</span>
 				</div>
 			</div>
 

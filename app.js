@@ -105,9 +105,15 @@ tableOne.sync({})
 	const io = socketio(server)
 	io.on('connection', function(socket) {
 	console.log('NEW CLIENT, id is', socket.id)
-	
-	//let allPlayers = Object.keys(io.engine.clients)
+
+	//listening for new players added 
+	io.emit('newPlayer', socket.id)
+
 	store.dispatch(addPlayer(socket.id, 0))
+
+	let allPlayers = Object.keys(io.engine.clients)
+	socket.emit('multiPlayerReady', allPlayers)
+
 
 	socket.on('getNextQuestion', function() {
 		console.log('*****hitting get next question *******')
@@ -129,6 +135,13 @@ tableOne.sync({})
 		})
 	}
 
+
+	// function startWhenAllPlayersJoin() {
+	// 	let allPlayers = Object.keys(io.engine.clients)
+	// 	if (allPlayers.length === 2) {
+	// 		socket.emit('multiPlayerReady', function () {})
+	// 	}
+	// }
 	//console.log('****************', allAnswers)
 
 

@@ -11,20 +11,6 @@ const gettingQuestion = function(question) {
 
 
 /*Thunks*/
-// export function displayingQuestion(id){
-	
-// 	return function(dispatch) {
-// 		//console.log('question', question);
-// 		return axios.get(`/api/questions/${id}`)
-// 		.then(function(response){
-// 		console.log('question 2', response);
-// 			dispatch(gettingQuestion(response.data));
-// 		})
-// 		.catch(function(err){
-// 			console.log(err); 
-// 		});
-// 	}
-// }
 
 const getRandomQuestion = function(){
 	return function(dispatch) {
