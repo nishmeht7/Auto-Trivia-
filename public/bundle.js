@@ -23534,6 +23534,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(14);
 
+var _sweetalert = __webpack_require__(236);
+
+var _sweetalert2 = _interopRequireDefault(_sweetalert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23565,6 +23569,23 @@ var HomePageContainer = function (_React$Component) {
 		value: function onMultiPlayerClick(event) {
 			event.preventDefault();
 			console.log('clicking on multiplayer');
+			(0, _sweetalert2.default)({
+				title: "GearHead Name?",
+				text: "Give your player a name:",
+				type: "input",
+				showCancelButton: true,
+				closeOnConfirm: false,
+				animation: "slide-from-top",
+				inputPlaceholder: "Write something"
+			}, function (inputValue) {
+				if (inputValue === false) return false;
+				if (inputValue === "") {
+					_sweetalert2.default.showInputError("You need to write something!");
+					return false;
+				}
+				(0, _sweetalert2.default)({ title: "Welcome " + inputValue + "!", text: "Waiting for another player to join", imageUrl: "http://www.downgraf.com/wp-content/uploads/2014/09/01-progress.gif" });
+				//swal("Nice!", "You wrote: " + inputValue, "success");
+			});
 		}
 	}, {
 		key: 'render',
