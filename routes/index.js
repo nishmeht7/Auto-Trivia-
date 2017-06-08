@@ -53,6 +53,27 @@ router.get('/questions/getRandom', function (req, res) {
 	})
 })
 
+
+/**
+ * Returns the points to a question given an id
+ */
+
+router.get('/questions/points/:id', function (req, res) {
+	let qId = req.params.id
+	Questions.fromId(qId)
+		.then(function(question){
+			if (question == undefined) {
+				res.json({})
+			}
+			else {
+				res.json({
+					points: question.points,
+				})
+			}
+		})
+})
+
+
 /**
  * Returns a question by a given id
  */
@@ -79,7 +100,7 @@ router.get('/questions/:id', function (req, res){
 /**
  * When the user guesses on a question, this endpoint returns if the question and answer combo are correct
  */
-router.post('/questions/:id/guess/:Aid', function (req, res) {
+router.get('/questions/:id/guess/:Aid', function (req, res) {
 	let questionId = req.params.id
 	let userAnswerId = req.params.Aid
 

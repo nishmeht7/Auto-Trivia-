@@ -1,10 +1,8 @@
-import axios from 'axios'; 
-
-const GET_QUESTION = 'GET_QUESTION'; 
+const GET_QUESTION = 'GET_QUESTION';
 
 /*Action Creator*/
 
-export function gettingQuestion (question) {
+const gettingQuestion = function(question) {
 	return {
 		type: GET_QUESTION, 
 		question
@@ -14,8 +12,7 @@ export function gettingQuestion (question) {
 
 /*Thunks*/
 
-
-export function getRandomQuestion(){
+const getRandomQuestion = function(){
 	return function(dispatch) {
 		return axios.get('api/questions/getRandom')
 		.then(function(response){
@@ -28,23 +25,37 @@ export function getRandomQuestion(){
 	}
 }
 
+//thunk to go to next question 
+
+
 
 /*Reducer*/
 let initialState = {}
 
 
-export default function gamePlayReducer (prevState = initialState, action) {
+const gamePlayReducer = function(prevState=initialState, action) {
 
-	const newState = Object.assign({}, prevState);
+	const newState = Object.assign({}, prevState); 
 
-	switch (action.type) {
+	switch(action.type) {
+		
 		case GET_QUESTION:
 			newState.question = action.question;
 			break;
 
-		default:
+		default: 
 			return prevState
 	}
 	return newState;
 
 }
+
+
+module.exports = {
+	gettingQuestion, 
+	getRandomQuestion,
+	gamePlayReducer,
+	GET_QUESTION
+}
+
+

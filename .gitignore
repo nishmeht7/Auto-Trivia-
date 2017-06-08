@@ -2,3 +2,6 @@
 # Webpack output
 public/bundle.js
 public/bundle.js.map
+
+# db.js
+config/db.js

@@ -1,26 +1,55 @@
 import React from 'react';
 
-export default function TriviaGamePlayExtra(props) {
+export default class TriviaGamePlayExtra extends React.Component {
 
-	console.log('component props', props);
-	const quest = props.questObj.gamePlay.question;
-	console.log('quest', quest);
-	// console.log('state', state)
+	constructor(props) {
+		super()
+	}
+
+
+	// answerText(){
+	// 	props.displayFunc()
+	// }
+
+	handleSubmit(){
+		props.submitAnswer()
+	}
+
+	const questionObj = props;
+	console.log('triviagameplayextra component props', questionObj);
+
+render() {
 
 	return (
 
-		<div className="trivia">
-		      <div>
-				{console.log('inside return ', props)}
-		        <h3>Question:</h3>
-		        <img src={"www.google.com"} className="img-thumbnail"/>
-		      </div>
-		      <h3>Answer Options: </h3> 
-		      {props.someArr.map(function(elem){
-		      	return <div>
-		      		<li>{elem}</li>
-		      	</div>
-		      })}
+		<div className="trivia">      
+			{console.log('inside return ', questionObj)}
+
+			{
+				questionObj ?
+				(
+				<div>
+					<h3>
+						Question: { questionObj.question.questionText }
+					</h3>
+					<img src={ questionObj.question.questionImgUrl } className="img-thumbnail"/>
+					<h3>Answer Options: </h3> 
+				        {questionObj.answers.map(function(elem){
+				      		return <div key={elem.id}>
+							      	    <li>
+							      	    	<button className="btn-info">
+							      	    	{elem.answerText}
+							      	    	</button>
+							      	    </li>
+							       </div>
+					    })}
+				</div>
+				)
+				:
+				(<h3>Question: </h3>)}
 		</div>
 	)
+
 }
+}
+
