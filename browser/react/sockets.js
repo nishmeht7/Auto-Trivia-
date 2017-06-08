@@ -35,13 +35,18 @@ export function initializeSocket() {
 			// store.dispatch({type: GET_QUESTION, question: gettingQuestion})
 		})
 
+		socket.on('newPlayerIsAdded', function(newPlayer){
+			console.log('the new player is************', newPlayer)
+			store.dispatch(addPlayer(newPlayer))
+		})
+
 		socket.on('newPlayer', function(playerSocket){
 			console.log('new player id is', playerSocket)
-			store.dispatch(addPlayer(playerSocket))
+			// store.dispatch(addPlayer(playerSocket))
 		})
 
 		socket.on('multiPlayerReady', function(players) {
-			totalPlayers = players
+			//totalPlayers = players
 			console.log('both players have joined!!!!', totalPlayers)
 
 			//window.location.href = 'http://localhost:3001/questions';

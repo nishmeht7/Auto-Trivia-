@@ -7,8 +7,6 @@ const addingPoints = function(id, points) {
 	return {
 		type: ADD_POINTS,
 		points: points,
-		id,
-
 	}
 }
 

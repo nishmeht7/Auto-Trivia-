@@ -4,7 +4,8 @@ const gamePlay = require('./gamePlayReducer')
 const gamePlayReducer = gamePlay.gamePlayReducer
 const { pointsReducer } = require('./pointsReducer')
 const { playerReducer } = require('./playerReducer')
-
+const player = require('./newPlayerReducer')
+const newPlayer = player.playerReducer
 
 
 
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
 	gamePlay: gamePlayReducer,
 	points: pointsReducer,
 	player: playerReducer,
+	newPlayer,
 })
 
 

@@ -17,7 +17,7 @@ const { store } = require('./server/redux/store')
 const { gettingQuestion, getRandomQuestion, gamePlayReducer, GET_QUESTION } = require('./server/redux/gamePlayReducer') 
 const { ADD_POINTS, addingPoints, addThePoints, pointsReducer } = require('./server/redux/pointsReducer')
 const { addPlayer, updatePlayer, playerReducer, ADD_PLAYER, UPDATE_PLAYER } = require('./server/redux/playerReducer')
-
+const { addNewPlayer } = require('./server/redux/newPlayerReducer')
 
 //morgan middleware
 app.use(morgan('dev'));
@@ -40,6 +40,7 @@ app.get('/*', function(req, res){
 
 let questionStored;
 let answerStored;
+let newPlayer
 
 function getQuestion () {
 	return tableOne.findAll()
@@ -107,6 +108,8 @@ tableOne.sync({})
 	console.log('NEW CLIENT, id is', socket.id)
 
 	//listening for new players added 
+	newPlayer = socket.id
+	store.dispatch(addNewPlayer(socket.id))
 	io.emit('newPlayer', socket.id)
 
 	store.dispatch(addPlayer(socket.id, 0))
@@ -166,13 +169,17 @@ tableOne.sync({})
 	// 	socket.emit('randomQuestion', {question: questionStored, answers: answerStored})
 	// }
 
+	console.log('the server store is*******************', store.getState())
+
 	function giveClientAllData() {
 		socket.emit('allData', {questions: allQuestions, answers: allAnswers})
 	}
 
+	socket.emit('newPlayerIsAdded', newPlayer)
 	store.subscribe(() => {
 		//updateClientQuestion()
 		updatePointsServerSide()
+		socket.emit('newPlayerIsAdded***********************', store.getState())
 	})
 
 	//emit this in the beginning to update the client store with questions

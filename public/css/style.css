@@ -9,11 +9,12 @@
 .homeBody {
   background: grey;
   font-family: "Arial";
-  background-image: url(http://24.media.tumblr.com/abbd3d80c95a8e2b7576246b12a9f671/tumblr_n0fwypACUa1slhhf0o1_1280.jpg);
+  background-image: url(https://s-media-cache-ak0.pinimg.com/originals/47/96/1e/47961e92b358549047340e4ba4c42a3a.jpg);
   background-size: cover;
   width: 100%;
   height: 100vh;
 }
+
 
 .shinyContainer {
   

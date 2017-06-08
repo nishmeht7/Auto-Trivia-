@@ -1,10 +1,9 @@
-import axios from 'axios'
-
 const NEW_PLAYER = 'NEW_PLAYER'
 
 /*Action Creator*/
 
-export function addPlayer (player) {
+const addNewPlayer = function (player) {
+	console.log('******HITTING ADDNEWPLAYER')
 	return {
 		type: NEW_PLAYER,
 		player,
@@ -16,7 +15,7 @@ export function addPlayer (player) {
 
 /*reducers*/
 
-export default function playerReducer (prevState = [], action) {
+const playerReducer = function (prevState = [], action) {
 
 	const newState = [...prevState]
 
@@ -31,4 +30,10 @@ export default function playerReducer (prevState = [], action) {
 	}
 
 	return newState
+}
+
+
+module.exports = {
+	addNewPlayer,
+	playerReducer, 
 }

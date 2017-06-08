@@ -138,8 +138,8 @@ class TriviaContainer extends React.Component {
 			return (
 
 
+				<div className='triviaBody'>
 				<div>
-				{allThePlayers.length > 1 ? (<div>
 				<div className="parentFlexContainer">      
 
 					{
@@ -177,16 +177,13 @@ class TriviaContainer extends React.Component {
 				</div>
 				<div className='timerFlex'>
 	            <ReactCountdownClock
-						 seconds={15}
+						 seconds={20}
 	                     color="#000"
 	                     alpha={0.9}
 	                     size={75}
 	                     onComplete={whoWon}
 	                      />
-	            </div></div>) 
-				:
-				(<h3>waiting for players...</h3>)
-				}
+	            </div></div>
 	            </div>
 		)	
 	}
